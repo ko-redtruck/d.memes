@@ -7,7 +7,7 @@ function request(fn,data,resultFn) {
             console.log("response: " + response);
             resultFn(response);
         }
-    ).error(function(response) {
+    ).fail(function(response) {
         console.log("response failed: " + response.responseText);
     })
     ;

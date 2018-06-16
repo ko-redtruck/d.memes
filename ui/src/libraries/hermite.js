@@ -1,8 +1,3 @@
-// ----------- LIBRARY BELOW ------------------------
-
-
-
-
 /**
  * Hermite resize - fast image resize/resample using Hermite filter.
  * Author: ViliusL
