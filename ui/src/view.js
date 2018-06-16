@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // create image and add src data
         var image = new Image();
         image.src = post.Entry.body
+        //image.width = "700";
+        console.log(image)
         // create colSlum for content
         var col = document.createElement("div");
         col.className = "col";

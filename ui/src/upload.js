@@ -1,8 +1,17 @@
+//globals
+var canvas = document.createElement("canvas");
+canvas.id = "cc";
+var ctx = canvas.getContext("2d");
+var img_w;
+var img_h;
+var standard_img_w = 700;
+var HERMITE = new Hermite_class();
+
+
 // EventListener------------------------
 
 //Upload Meme (Post Meme)
 document.addEventListener("DOMContentLoaded", function() {document.querySelector("#imageLoader").onchange = function (){
-    //var base64_img = encodeImageFileAsURL(document.querySelector("#imageLoader"));
     uploadMeme();
   }
 });
@@ -26,70 +35,57 @@ function createPost(post) {
 //---------------------
 
 
-// draw base64_img into canvas
-function convertBase64ToImg(base64_img, canvas_id) {
-  var canvas = document.querySelector("#"+canvas_id);
-  var ctx = canvas.getContext("2d")
-  var myImage = new Image();
-  myImage.src = base64_img;
-  ctx.drawImage(myImage,0,0);
-}
-
 
 // image upload + base64 encoder + commit post to DHT
 function uploadMeme() {
   var imgObject = new Image();
-  var loadTimer;
   var element = document.querySelector("#imageLoader");
   var file = element.files[0];
   var reader = new FileReader();
+
+
   reader.onloadend = function() {
     document.querySelector("#submitButton").addEventListener("click", function(event){
       event.preventDefault();
-      var title = document.querySelector("#title").value;
-      var tags = document.querySelector("#tags").value;
-      var post = {
-        "body": reader.result,
-        "title": title,
-        "tags": tags
-      };
-      createPost(JSON.stringify(post));
-    })
-    /*
-    //wait for the picture upload
-    imgObject.src = reader.result;
-    imgObject.onload = onImgLoaded();
-    function onImgLoaded() {
-      if (loadTimer != null) clearTimeout(loadTimer);
-      if (!imgObject.complete){
-        loadTimer = setTimeout(function () {
-          onImgLoaded();
-        }, 3);
+
+      imgObject.onload =  function () {
+        var on_finish = function (){
+          console.log(canvas)
+          var title = document.querySelector("#title").value;
+          var tags = document.querySelector("#tags").value;
+          var post = {
+            "body": canvas.toDataURL(),
+            "title": title,
+            "tags": tags
+          };
+          createPost(JSON.stringify(post));
+        }
+        draw_image(imgObject);
+        var resizeFactor = standard_img_w / canvas.width
+        HERMITE.resample(canvas,resizeFactor*canvas.width,resizeFactor*canvas.height,true, on_finish)
 
       }
-      else {
-        onPreloadComplete();
-      }
-    }
-  */
+      imgObject.src = reader.result;
+
+    })
   }
 
   reader.readAsDataURL(file);
 }
 
-function onPreloadComplete() {
-  var newImg = getImageData(imgObject, 120, 150, 150, 80, 2);
-  document.querySelector("#submitButton").addEventListener("click", function(event){
-    event.preventDefault();
-    var title = document.querySelector("#title").value;
-    var tags = document.querySelector("#tags").value;
-    var post = {
-      "body": newImg.src,
-      "title": title,
-      "tags": tags
-    };
-    createPost(JSON.stringify(post));
-  });
+function draw_image(img){
+	img_w = img.width;
+	img_h = img.height;
+
+	//prepare canvas
+	canvas.width = img_w;
+	canvas.height = img_h;
+	ctx.clearRect(0, 0, img_w, img_h);
+
+	//draw image
+	ctx.drawImage(img, 0, 0);
 }
+
+
 //// TODO: Image Preview, Warning for missing title, tags, ... , message when upload successful
 // TODO: move wrapper functions into new file
