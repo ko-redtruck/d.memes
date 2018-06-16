@@ -1,0 +1,84 @@
+{
+    "Version": 1,
+    "UUID": "bb13c2d4-5b6a-11e8-b0a3-a0c5891e7d83",
+    "Name": "HoloWorld",
+    "Properties": {
+        "description": "my first holochain app",
+        "language": "en"
+    },
+    "PropertiesSchemaFile": "properties_schema.json",
+    "RequiresVersion": 24,
+    "DHTConfig": {
+        "HashType": "sha2-256",
+        "RedundancyFactor": 0
+    },
+
+    "Zomes": [
+        {
+            "Name": "post",
+            "Description": "post, edit and delete posts",
+            "CodeFile": "post.js",
+            "RibosomeType": "js",
+            "BridgeFuncs": null,
+            "Config": null,
+            "Entries": [
+                {
+                    "Name": "post",
+                    "DataFormat": "json",
+                    "Sharing": "public",
+                    "SchemaFile": "post.json"
+                },
+                {
+                    "Name": "post_links",
+                    "DataFormat": "links"
+                },
+                {
+                    "Name": "upvote_links",
+                    "DataFormat": "links"
+                }
+            ],
+            "Functions": [
+                {
+                    "Name": "createPost",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "removePost",
+                    "CallingType": "string",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "updatePost",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                  "Name": "upvotePost",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "getUpvotes",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "readPost",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "findNewPosts",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "getPosts",
+                  "CallingType": "json",
+                  "Exposure": "public"
+                }
+            ]
+        }
+    ]
+}

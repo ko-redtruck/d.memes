@@ -1,0 +1,13 @@
+{
+    "title": "Post Schema",
+    "type": "object",
+    "properties": {
+	"body": {
+	    "type": "string"
+	},
+	"title": {
+	    "type": "string"
+	}
+    },
+    "required": ["body","title"]
+}

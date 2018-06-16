@@ -1,0 +1,75 @@
+{
+  "Tests": [
+    {
+    "Convey": "post something",
+     "Zome": "post",
+     "FnName": "createPost",
+     "Input": {
+       "body": "",
+       "title": "test"
+     },
+     "Output": "%h1%",
+     "Exposure": "public"
+   },
+
+   {
+   "Convey": "update a post",
+    "Zome": "post",
+    "FnName": "updatePost",
+    "Input": {
+        "oldHash": "%h1%",
+        "post": {
+          "body": "12346",
+          "title": "this is the modified post"
+        }},
+    "Output": "%h%",
+    "Exposure": "public"
+  },
+  {
+    "Convey": "get/read a post",
+    "Zome": "post",
+    "FnName": "readPost",
+    "Input": "%h%",
+    "Output": {
+      "body": "12346",
+      "title": "this is the modified post"
+    },
+    "Exposure": "public"
+  },
+  {
+    "Convey": "upvote a post",
+    "Zome": "post",
+    "FnName": "upvotePost",
+    "Input": "%h%",
+    "Output": true
+  },
+  {
+    "Convey": "get the upvotes from a post",
+    "Zome": "post",
+    "FnName": "getUpvotes",
+    "Input": "%h2%",
+    "Output": 1
+  },
+  {
+    "Convey": "get posts without a hash",
+    "Zome": "post",
+    "FnName": "findNewPosts",
+    "Output": ""
+  },
+  {
+    "Convey": "get new posts",
+    "Zome": "post",
+    "FnName": "getPosts",
+    "Input": {"limit":1},
+    "Output": ""
+  },
+  {
+  "Convey": "delete a post",
+   "Zome": "post",
+   "FnName": "removePost",
+   "Input": "%h2%",
+   "Output": "%h%",
+   "Exposure": "public"
+ }
+  ]
+}
