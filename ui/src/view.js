@@ -13,13 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // create image and add src data
         var image = new Image();
         image.src = post.Entry.body
-        //image.width = "700";
-        console.log(image)
-        // create colSlum for content
+        // create collumn for content
         var col = document.createElement("div");
         col.className = "col";
+        // create div for post (footer,image, titel)
+        var postDiv = document.createElement("div");
         // create upvote button
         var button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn btn-success";
         button.id = "upvoteButton";
         button.innerHTML = "Upvote Post";
         button.dataset.postHash = post.Hash
@@ -32,9 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
         updateUpvoteCounter(post.Hash);
         // append newly created elements
         postSection.append(col);
-        col.append(image);
-        col.append(button);
-        col.append(upvoteCounter);
+        col.append(postDiv)
+        postDiv.append(image);
+        postDiv.append(button);
+        postDiv.append(upvoteCounter);
 
       })
     })
