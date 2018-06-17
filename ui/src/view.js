@@ -10,14 +10,22 @@ document.addEventListener("DOMContentLoaded", function () {
       // add the pictures to the website
       // TODO: add them to div and display them in an appropiate size
       postArray.forEach(function (post) {
+
         // create image and add src data
         var image = new Image();
-        image.src = post.Entry.body
-        // create collumn for content
-        var col = document.createElement("div");
-        col.className = "col";
-        // create div for post (footer,image, titel)
-        var postDiv = document.createElement("div");
+        image.src = post.Entry.body;
+        image.className = "img-fluid";
+        image.classList.add("rounded");
+        image.classList.add("mx-auto");
+        image.classList.add("d-block");
+
+        // create title
+        var title = document.createElement("h2");
+        title.innerHTML = post.Entry.title;
+
+        // divs fot the content
+        var divs = createDivs(postSection);
+
         // create upvote button
         var button = document.createElement("button");
         button.type = "button";
@@ -27,17 +35,18 @@ document.addEventListener("DOMContentLoaded", function () {
         button.dataset.postHash = post.Hash
         // TODO: instead of onclick add a EventListener for the button
         button.onclick = upvote;
+
         // create paragraph for showing the number of upvotes
         var upvoteCounter = document.createElement("p");
         upvoteCounter.id = post.Hash;
         // update the counter
         updateUpvoteCounter(post.Hash);
-        // append newly created elements
-        postSection.append(col);
-        col.append(postDiv)
-        postDiv.append(image);
-        postDiv.append(button);
-        postDiv.append(upvoteCounter);
+
+        // append newly created element
+        divs["colTitle"].append(title)
+        divs["colPicture"].append(image);
+        divs["colFooter1"].append(button);
+        divs["colFooter2"].append(upvoteCounter);
 
       })
     })
@@ -63,4 +72,51 @@ function updateUpvoteCounter(postHash) {
     upvoteCounter = document.querySelector("#"+array[1]);
     upvoteCounter.innerHTML = array[0];
   })
+}
+
+function createDivs(postSection) {
+
+  row1 = createRow();
+  row1.className += " justify-content-center";
+  postSection.append(row1);
+
+  col1 = createCollumn();
+  col1.className = "col-8";
+  row1.append(col1);
+
+  // title
+  rowTitle = createRow();
+  colTitle = createCollumn();
+  col1.append(rowTitle)
+  rowTitle.append(colTitle);
+
+  // picture / meme
+  rowPicture = createRow();
+  colPicture = createCollumn();
+  col1.append(rowPicture);
+  rowPicture.append(colPicture);
+
+  // footer (upvote button/ counter)
+  rowFooter = createRow();
+  colFooter1 = createCollumn();
+  colFooter2 = createCollumn();
+  col1.append(rowFooter);
+  rowFooter.append(colFooter1);
+  rowFooter.append(colFooter2);
+
+  // return the collumns
+  return {"colTitle":colTitle,"colPicture":colPicture,"colFooter1":colFooter1,"colFooter2":colFooter2}
+}
+
+
+function createRow(){
+  row = document.createElement("div");
+  row.className = "row"
+  return row;
+}
+
+function createCollumn(){
+  col = document.createElement("div");
+  col.className = "col"
+  return col;
 }

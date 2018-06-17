@@ -12,17 +12,33 @@
   </head>
 
   <body>
-    <h1>Deme</h1>
-    <h2>Upload Memes</h2>
-    <button><a href="/index.html"><h6>View Memes</h6></a></button>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="/">
+        <img src="img/logo.png" width="30" height="24" class="d-inline-block align-top" alt="">
+        D.Memes
+      </a>
+    </nav>
 
-    <form id="form">
-      <input id="title" autocomplete="off" placeholder="your Title" type="text">
-      <input id="tags" placeholder="your Tags" type="text">
-      <input id="submitButton" type="submit">
-    </form>
+    <div class="container">
+      <form id="form">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input class="form-control" id="title" autocomplete="off" placeholder="Your title" type="text">
+        </div>
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input class="form-control" id="tags" placeholder="Your tags" type="text">
+        </div>
+        <div class="form-group">
+          <label for="imageLoader">Image</label>
+          <input type="file" class="form-control-file" id="imageLoader" name="imageLoader"/>
+        </div>
+        <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
+      </form>
 
-    <input type="file" id="imageLoader" name="imageLoader"/>
+
+    </div>
+
 
   </body>
 </html>
