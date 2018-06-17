@@ -31,10 +31,21 @@ document.addEventListener("DOMContentLoaded", function () {
         button.type = "button";
         button.className = "btn btn-success";
         button.id = "upvoteButton";
-        button.innerHTML = "Upvote Post";
+        button.innerHTML = "Upvote";
         button.dataset.postHash = post.Hash
         // TODO: instead of onclick add a EventListener for the button
         button.onclick = upvote;
+
+        // create comment button
+      //  <input onclick="location.href='upload.html'">
+        var commentButton = document.createElement("input");
+        commentButton.type = "button";
+        commentButton.className = "btn btn-secondary";
+        commentButton.id = "commentButton";
+        commentButton.value = "Comment";
+        commentButton.dataset.parentHash = post.Hash
+        // TODO: instead of onclick add a EventListener for the button
+        commentButton.onclick = passData;
 
         // create paragraph for showing the number of upvotes
         var upvoteCounter = document.createElement("p");
@@ -46,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         divs["colTitle"].append(title)
         divs["colPicture"].append(image);
         divs["colFooter1"].append(button);
+        divs["colFooter1"].append(commentButton)
         divs["colFooter2"].append(upvoteCounter);
 
       })
@@ -72,6 +84,11 @@ function updateUpvoteCounter(postHash) {
     upvoteCounter = document.querySelector("#"+array[1]);
     upvoteCounter.innerHTML = array[0];
   })
+}
+
+function passData() {
+  var parentHash = this.dataset.parentHash;
+  window.location = "viewPost.html?" + parentHash;
 }
 
 function createDivs(postSection) {

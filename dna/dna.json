@@ -29,12 +29,22 @@
                     "SchemaFile": "post.json"
                 },
                 {
+                    "Name": "comment",
+                    "DataFormat": "json",
+                    "Sharing": "public",
+                    "SchemaFile": "comment.json"
+                },
+                {
                     "Name": "post_links",
                     "DataFormat": "links"
                 },
                 {
                     "Name": "upvote_links",
                     "DataFormat": "links"
+                },
+                {
+                  "Name": "comment_link",
+                  "DataFormat": "links"
                 }
             ],
             "Functions": [
@@ -42,6 +52,11 @@
                     "Name": "createPost",
                     "CallingType": "json",
                     "Exposure": "public"
+                },
+                {
+                  "Name": "createComment",
+                  "CallingType": "json",
+                  "Exposure": "public"
                 },
                 {
                     "Name": "removePost",
@@ -76,6 +91,11 @@
                 {
                   "Name": "getPosts",
                   "CallingType": "json",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "getComments",
+                  "CallingType": "string",
                   "Exposure": "public"
                 }
             ]

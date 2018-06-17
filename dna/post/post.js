@@ -40,15 +40,26 @@ function readPost(postHash) {
 
 
 // create a post
-function createPost(post) {
+function createPost(post, dataTyp) {
+  dataTyp = "post" || 0;
   // Commit post entry to my source chain
   // body + title required to post
-  var hash = commit("post",post);
+  var hash = commit(dataTyp,post);
   // On the DHT, put a link from my hash to the hash of the new post
   var me = App.Agent.Hash;
   var link = commit("post_links",{
     Links: [
       {Base: me,Link: hash, Tag: "post"}
+    ]
+  });
+  return hash;
+}
+
+function createComment(comment) {
+  var hash = createPost(comment,"comment");
+  var link = commit("comment_link",{
+    Links: [
+      {Base: comment.parentHash, Link: hash, Tag: "post"}
     ]
   });
   return hash;
@@ -112,4 +123,15 @@ function getPosts(params) {
   var posts = queryPosts(params.limit);
   // do some sorting
   return posts;
+}
+
+function getComments(parentHash) {
+  var comment_links = getLinks(parentHash,"post", {Load: true});
+  if (comment_links == 0){
+    return 0;
+  }
+  else{
+    return JSON.stringify(comment_links);
+  }
+
 }
