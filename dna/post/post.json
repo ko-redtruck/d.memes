@@ -8,9 +8,9 @@
 	"title": {
 	    "type": "string"
 	},
-  "parentHash":{
-    "type": "string"
-  }
+        "parentHash":{
+  	    "type": "string"
+  	}
     },
     "required": ["body","title"]
 }
