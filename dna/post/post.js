@@ -27,6 +27,10 @@ function validateLink() {
 
 // Functions ---------------------------
 
+function appInfo(string) {
+  return JSON.stringify({"HC version": HC.Version, "Dna hash": App.DNA.Hash});
+};
+
 function readPost(postHash) {
   // get the post with its hash
   var post = get(postHash, { GetMask: HC.GetMask.Entry + HC.GetMask.EntryType })

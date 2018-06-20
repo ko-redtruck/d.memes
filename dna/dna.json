@@ -54,6 +54,11 @@
                     "Exposure": "public"
                 },
                 {
+                    "Name": "appInfo",
+                    "CallingType": "string",
+                    "Exposure": "public"
+                },
+                {
                   "Name": "createComment",
                   "CallingType": "json",
                   "Exposure": "public"

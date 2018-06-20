@@ -1,5 +1,9 @@
 // TODO:  images should load one after another and wait for all to load and then appear on the website
 document.addEventListener("DOMContentLoaded", function () {
+  //app info
+  request("appInfo","",function (result) {
+    console.log(JSON.parse(result));
+  });
   var postSection = document.querySelector("#post-section");
   function getPosts() {
     var params = {"limit":10};
