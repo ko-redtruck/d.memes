@@ -58,7 +58,7 @@ function uploadMeme() {
             "title": title,
             "tags": tags
           };
-          createPost(JSON.stringify(post));
+          createPost(JSON.stringify({"post":post}));
         }
         draw_image(imgObject);
         var resizeFactor = standard_img_w / canvas.width

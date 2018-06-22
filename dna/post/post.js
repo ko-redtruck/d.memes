@@ -28,6 +28,7 @@ function validateLink() {
 // Functions ---------------------------
 
 function appInfo(string) {
+  // string is useless
   return JSON.stringify({"HC version": HC.Version, "Dna hash": App.DNA.Hash});
 };
 
@@ -44,11 +45,13 @@ function readPost(postHash) {
 
 
 // create a post
-function createPost(post, dataTyp) {
-  dataTyp = "post" || 0;
+function createPost(params) {
+  if (params.dataTyp==null){
+    params.dataTyp= "post"
+  }
   // Commit post entry to my source chain
   // body + title required to post
-  var hash = commit(dataTyp,post);
+  var hash = commit(params.dataTyp,params.post);
   // On the DHT, put a link from my hash to the hash of the new post
   var me = App.Agent.Hash;
   var link = commit("post_links",{
@@ -60,7 +63,7 @@ function createPost(post, dataTyp) {
 }
 
 function createComment(comment) {
-  var hash = createPost(comment,"comment");
+  var hash = createPost({"post":comment,"dataTyp":"comment"});
   var link = commit("comment_link",{
     Links: [
       {Base: comment.parentHash, Link: hash, Tag: "post"}
