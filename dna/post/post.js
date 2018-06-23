@@ -46,20 +46,51 @@ function readPost(postHash) {
 
 // create a post
 function createPost(params) {
+  // is true when the post is not a comment
   if (params.dataTyp==null){
     params.dataTyp= "post"
   }
+
   // Commit post entry to my source chain
   // body + title required to post
-  var hash = commit(params.dataTyp,params.post);
+  var postHash = commit(params.dataTyp,params.post);
+
   // On the DHT, put a link from my hash to the hash of the new post
   var me = App.Agent.Hash;
-  var link = commit("post_links",{
+  var postLink = commit("post_links",{
     Links: [
-      {Base: me,Link: hash, Tag: "post"}
+      {Base: me,Link: postHash, Tag: "post"}
     ]
   });
-  return hash;
+
+  // create Hashtags
+  if (params.post.tags == ""){
+    var hashtags = ["all"];
+  }
+  else{
+    var hashtags = params.post.tags.split(",");
+    // under #all all posts are listed
+    hashtags.push("all");
+  }
+
+  var linkType = params.dataTyp;
+
+  hashtags.forEach(function(tag){
+    // find the hash of the anchor (tag) or create it if it did not exist
+    var anchorHash = anchor("tags",tag);
+    // link the post to the anchors (tags)
+    var anchorLink = commit("post_hashtag_link",{
+      Links: [
+        {Base: anchorHash , Link: postHash, Tag: linkType}
+      ]
+    });
+  })
+
+  // show all tags that exist
+  debug(anchors("tags"))
+  // show all posts for the tag funny
+  debug(getLinks(anchor("tags","funny"),""))
+  return postHash;
 }
 
 function createComment(comment) {
@@ -109,8 +140,8 @@ function getUpvotes(postHash) {
   array[1] = postHash;
   return array;
 }
-// TODO: tags
 
+// only looks through your local source chain
 // limit: how many posts you want to query for
 function queryPosts(limit) {
   var result = query({
@@ -127,7 +158,9 @@ function queryPosts(limit) {
 }
 
 function getPosts(params) {
-  var posts = queryPosts(params.limit);
+  //var posts = queryPosts(params.limit);
+  var posts = getLinks(anchor("tags","all"),"post",{Load: true});
+  debug(posts);
   // do some sorting
   return posts;
 }
@@ -141,4 +174,22 @@ function getComments(parentHash) {
     return JSON.stringify(comment_links);
   }
 
+}
+
+function anchor(anchorType, anchorText) {
+  return call('anchors', 'anchor', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  }).replace(/"/g, '');
+}
+
+function anchors(anchorType) {
+  return JSON.parse(call('anchors', 'anchors', anchorType));
+}
+
+function anchorExists(anchorType, anchorText) {
+  return call('anchors', 'exists', {
+    anchorType: anchorType,
+    anchorText: anchorText
+  });
 }

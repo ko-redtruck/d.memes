@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     request("getPosts",JSON.stringify(params),function(posts) {
       // do something with the returned post array
       // convert string to array object
-      var postArray = JSON.parse(JSON.parse(posts));
+      var postArray = JSON.parse(posts);
       // add the pictures to the website
       // TODO: add them to div and display them in an appropiate size
       postArray.forEach(function (post) {

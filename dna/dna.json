@@ -45,6 +45,10 @@
                 {
                   "Name": "comment_link",
                   "DataFormat": "links"
+                },
+                {
+                  "Name": "post_hashtag_link",
+                  "DataFormat": "links"
                 }
             ],
             "Functions": [

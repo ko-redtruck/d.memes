@@ -48,7 +48,7 @@ function exists(anchor){
  **/
 function anchors(type){
   var links = getLinks(makeHash('anchor', {anchorType: type, anchorText: ''}), '');
-  return links;
+  return JSON.stringify(links);
 }
 
 function genesis() {
