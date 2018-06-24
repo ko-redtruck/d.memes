@@ -117,11 +117,6 @@
                   "Exposure": "public"
                 },
                 {
-                  "Name": "usernameExists",
-                  "CallingType": "string",
-                  "Exposure": "public"
-                },
-                {
                   "Name": "checkForUsername",
                   "CallingType": "string",
                   "Exposure": "public"
