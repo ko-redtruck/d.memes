@@ -49,6 +49,10 @@
                 {
                   "Name": "post_hashtag_link",
                   "DataFormat": "links"
+                },
+                {
+                  "Name": "username_links",
+                  "DataFormat": "links"
                 }
             ],
             "Functions": [
@@ -104,6 +108,21 @@
                 },
                 {
                   "Name": "getComments",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "setUsername",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "usernameExists",
+                  "CallingType": "string",
+                  "Exposure": "public"
+                },
+                {
+                  "Name": "checkForUsername",
                   "CallingType": "string",
                   "Exposure": "public"
                 }

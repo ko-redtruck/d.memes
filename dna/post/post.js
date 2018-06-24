@@ -21,6 +21,12 @@ function validateDel() {
   return true;
 }
 
+// Are there types of tags that you need special permission to add links?
+// Examples:
+//   - Only Bob should be able to make Bob a "follower" of Alice
+//   - Only Bob should be able to list Alice in his people he is "following"
+
+
 function validateLink() {
   return true;
 }
@@ -29,7 +35,7 @@ function validateLink() {
 
 function appInfo(string) {
   // string is useless
-  return JSON.stringify({"HC version": HC.Version, "Dna hash": App.DNA.Hash});
+  return JSON.stringify({"HC version": HC.Version, "Dna hash": App.DNA.Hash, "Agent Hash": App.Agent.Hash});
 };
 
 function readPost(postHash) {
@@ -41,6 +47,52 @@ function readPost(postHash) {
   else {
     return "hash is not of type post";
   }
+}
+
+function setUsername(username) {
+  //creates a username or changes it if it already exists
+
+  // check if Agent Hash has already a username linked to it
+  var usernames = getLinks(App.Agent.Hash,"username", {Load: true});
+  if(usernames.length === 1){
+    // check if the new username is the same as the old one
+    if(usernames[0].Entry.anchorText==username){
+      // stop the function
+      debug("new username is equal to old username");
+      return false;
+    }
+    // remove the existing user name and set a new one
+    console.log("removing existing user name")
+    remove(usernames[0].Hash,"removing old username anchor");
+  }
+
+  // check if someone else has this username
+  if(usernameExists(username)==true){
+      debug("someone else has already set this username!")
+      return false;
+  }
+  // create an anchor for the username
+  var anchorHash = anchor("username",username);
+  // link the AgentHash to the anchor and the anchor to the AgentHash
+  commit("username_links",{Links: [{Base: anchorHash, Link: App.Agent.Hash, Tag: "agentHash"},{Base: App.Agent.Hash, Link: anchorHash, Tag: "username"}]});
+  // return message that the operation was successful
+  debug("username successfully set")
+  return true;
+}
+
+function checkForUsername() {
+  var links = getLinks(App.Agent.Hash,"username");
+  //debug(links)
+  if (links.length>0){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function usernameExists(username) {
+  return anchorExists("username",username)
 }
 
 

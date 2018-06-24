@@ -35,7 +35,7 @@ function commitAnchor(anchor,base,tag) {
  * @return boolean
  **/
 function exists(anchor){
-  var key = get(makeHash('anchor', anchor));
+  var key = get(makeHash("anchor", { anchorType: anchor.anchorType, anchorText: anchor.anchorText }));
   if(key !== null){
     return true;
   }

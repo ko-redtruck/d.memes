@@ -1,9 +1,21 @@
 // TODO:  images should load one after another and wait for all to load and then appear on the website
+// TODO:  rename view.js into feed.js
 document.addEventListener("DOMContentLoaded", function () {
   //app info
   request("appInfo","",function (result) {
     console.log(JSON.parse(result));
   });
+  // check if user already has a username
+  request("checkForUsername","",function (result) {
+    if(result=="true"){
+      console.log("username already set");
+    }
+    else{
+      //call function to get value.
+      setUsername("Please choose a username!");
+    }
+  })
+
   var postSection = document.querySelector("#post-section");
   function getPosts() {
     var params = {"limit":10};
@@ -70,6 +82,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   getPosts();
 })
+
+function setUsername(msg){
+  tag = prompt(msg);
+  if(tag == null){
+    setUsername(msg)
+  }
+  if(tag == ""){
+    setUsername(msg)
+  }
+  request("setUsername",tag,function(result){
+    if (result=="false"){
+      setUsername("Username already chosen. Please choose something different.");
+    }
+  });
+
+}
 
 function upvote() {
   var postHash = this.dataset.postHash
