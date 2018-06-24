@@ -158,9 +158,12 @@ function queryPosts(limit) {
 }
 
 function getPosts(params) {
-  //var posts = queryPosts(params.limit);
-  var posts = getLinks(anchor("tags","all"),"post",{Load: true});
-  debug(posts);
+  //get all posts linked to the hashtag "#all"
+  var linkEntries = getLinks(anchor("tags","all"),"post");
+  var posts = new Array();
+  linkEntries.forEach(function (linkEntry) {
+    posts.push({"Hash":linkEntry.Hash,"Entry":get(linkEntry.Hash)});
+  });
   // do some sorting
   return posts;
 }
