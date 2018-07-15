@@ -68,7 +68,7 @@ function setUsername(username) {
 
   debug(usernameExists(username))
   // check if someone else has this username
-  if(usernameExists(username)==true){
+  if(usernameExists(username)=="true"){
       debug("someone else has already set this username!")
       return false;
   }
