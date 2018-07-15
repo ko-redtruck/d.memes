@@ -66,7 +66,6 @@ function setUsername(username) {
     remove(usernames[0].Hash,"removing old username anchor");
   }
 
-  debug(usernameExists(username))
   // check if someone else has this username
   if(usernameExists(username)=="true"){
       debug("someone else has already set this username!")
