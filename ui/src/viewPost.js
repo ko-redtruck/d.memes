@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var commentSection = document.querySelector("#comment-section");
   function getComments() {
     console.log(window.location.search.substring(1))
-    request("getComments",window.location.search.substring(1),function(comments) {
+    request("getAllComments",window.location.search.substring(1),function(comments) {
 
       // do something with the returned post array
       // convert string to array object
@@ -23,6 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
           mediaDiv.className = "media"
           commentSection.append(mediaDiv);
 
+          if (comment.Entry.parentHash != window.location.search.substring(1)) {
+            document.querySelector("#"+"mediaBody_"+comment.Entry.parentHash).append(mediaDiv);
+          }
+          else {
+            commentSection.append(mediaDiv)
+          }
+
           // create user avatar
           var avatar = new Image();
           avatar.src = "../img/blank-profile-picture.jpg";
@@ -32,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // create media-body
           var mediaBody = document.createElement("div");
           mediaBody.className = "media-body";
+          mediaBody.id = "mediaBody_"+ comment.Hash;
           mediaDiv.append(mediaBody);
 
           /*info section (username, upvote count + how old the comment is)*/
@@ -87,47 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
           upvoteButton.append(upvoteSpan);
           actionRow.append(upvoteButton);
-
-          /*
-          class = glyphicon glyphicon-chevron-up
-          <button type="button" class="" aria-label="Left Align">
-  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-</button>
-
-          //downvote Button
-          class = glyphicon glyphicon-chevron-down
-          <button type="button" class="btn btn-default" aria-label="Left Align">
-  <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-</button>
-
-
-          */
-
-          /*
-          // create upvote button
-          var button = document.createElement("button");
-          button.type = "button";
-          button.className = "btn btn-success";
-          button.id = "upvoteButton";
-          button.innerHTML = "Upvote";
-          button.dataset.postHash = comment.Hash
-          // TODO: instead of onclick add a EventListener for the button
-          button.onclick = upvote;
-          mediaBody.append(button);
-
-          // create comment button
-          //  <input onclick="location.href='upload.html'">
-          var commentButton = document.createElement("input");
-          commentButton.type = "button";
-          commentButton.className = "btn btn-secondary";
-          commentButton.id = "commentButton";
-          commentButton.value = "Comment";
-          commentButton.dataset.Hash = comment.Hash;
-          // TODO: instead of onclick add a EventListener for the button
-          commentButton.onclick = passData;
-          mediaBody.append(commentButton);
-          */
-
         })
       }
     })

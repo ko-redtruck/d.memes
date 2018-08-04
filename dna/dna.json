@@ -107,7 +107,7 @@
                   "Exposure": "public"
                 },
                 {
-                  "Name": "getComments",
+                  "Name": "getAllComments",
                   "CallingType": "string",
                   "Exposure": "public"
                 },

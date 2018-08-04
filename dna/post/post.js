@@ -220,13 +220,35 @@ function getPosts(params) {
   return posts;
 }
 
+function getAllComments(parentHash) {
+  comments = getComments(parentHash);
+
+  // stop if no comments are found
+  if (comments == 0){
+    return 0;
+  }
+
+  for (var i = 0; i < comments.length; i++) {
+    subComments = getComments(comments[i].Hash);
+    if (subComments!=0){
+      subComments.forEach(function (subComment) {
+        comments.push(subComment)
+      })
+    }
+  }
+
+  return JSON.stringify(comments);
+
+
+}
 function getComments(parentHash) {
   var comment_links = getLinks(parentHash,"post", {Load: true});
   if (comment_links == 0){
     return 0;
   }
   else{
-    return JSON.stringify(comment_links);
+
+    return comment_links;
   }
 
 }
