@@ -95,6 +95,11 @@ function usernameExists(username) {
   return anchorExists("username",username)
 }
 
+function getUsernameByAppAgentHash(AppAgentHash) {
+  var username = getLinks(AppAgentHash,"username", {Load: true});
+  return username[0].Entry.anchorText;
+}
+
 
 // create a post
 function createPost(params) {

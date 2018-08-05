@@ -8,6 +8,7 @@ var standard_img_w = 700;
 var HERMITE = new Hermite_class();
 
 
+
 // EventListener------------------------
 
 //Upload Meme (Post Meme)
@@ -38,6 +39,8 @@ function createPost(post) {
 
 // image upload + base64 encoder + commit post to DHT
 function uploadMeme() {
+
+
   var imgObject = new Image();
   var element = document.querySelector("#imageLoader");
   var file = element.files[0];
@@ -50,15 +53,21 @@ function uploadMeme() {
 
       imgObject.onload =  function () {
         var on_finish = function (){
-          console.log(canvas)
-          var title = document.querySelector("#title").value;
-          var tags = document.querySelector("#tags").value;
-          var post = {
-            "body": canvas.toDataURL(),
-            "title": title,
-            "tags": tags
-          };
-          createPost(JSON.stringify({"post":post}));
+          request("appInfo","",function (appInfo) {
+            const authorAppAgentHash = JSON.parse(appInfo)["Agent Hash"]
+            var title = document.querySelector("#title").value;
+            var tags = document.querySelector("#tags").value;
+            var timestamp = new Date();
+            var post = {
+              "body": canvas.toDataURL(),
+              "title": title,
+              "tags": tags,
+              "authorAppAgentHash": authorAppAgentHash,
+              "timestamp": timestamp.toString()
+            };
+            createPost(JSON.stringify({"post":post}));
+          })
+
         }
         draw_image(imgObject);
         var resizeFactor = standard_img_w / canvas.width

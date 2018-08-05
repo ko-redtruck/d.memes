@@ -11,9 +11,15 @@
   "tags": {
       "type": "string"
   },
-        "parentHash":{
+    "parentHash":{
   	    "type": "string"
-  	}
+  	},
+    "authorAppAgentHash":{
+      "type": "string"
     },
-    "required": ["body","title"]
+    "timestamp":{
+      "type": "string"
+    }
+    },
+    "required": ["body","title","tags","timestamp"]
 }

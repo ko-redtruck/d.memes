@@ -120,6 +120,11 @@
                   "Name": "checkForUsername",
                   "CallingType": "string",
                   "Exposure": "public"
+                },
+                {
+                  "Name": "getUsernameByAppAgentHash",
+                  "CallingType": "string",
+                  "Exposure": "public"
                 }
             ]
         },

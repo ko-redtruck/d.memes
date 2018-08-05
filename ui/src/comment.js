@@ -17,6 +17,8 @@ function createComment(comment) {
   })
 }
 
+
+
 //---------------------
 document.addEventListener("DOMContentLoaded", function() {document.querySelector("#form").onsubmit = function (event){
   event.preventDefault();
@@ -24,14 +26,21 @@ document.addEventListener("DOMContentLoaded", function() {document.querySelector
 }})
 
 function comment() {
-  var title = "";
-  var tags = "";
-  var post = {
-  "body": document.querySelector("#commentTextarea").value,
-  "title": title,
-  "tags": tags,
-  "parentHash": window.location.search.substring(1),
-  };
+  request("appInfo","",function (appInfo) {
+    const authorAppAgentHash = JSON.parse(appInfo)["Agent Hash"]
+    var title = "";
+    var tags = "";
+    var timestamp = new Date();
+    var post = {
+    "body": document.querySelector("#commentTextarea").value,
+    "title": title,
+    "tags": tags,
+    "parentHash": window.location.search.substring(1),
+    "authorAppAgentHash": authorAppAgentHash,
+    "timestamp":  timestamp.toString()
+    };
 
-  createComment(JSON.stringify(post));
+    createComment(JSON.stringify(post));
+  })
+
 }

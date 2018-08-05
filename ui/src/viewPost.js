@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
           commentSection.append(mediaDiv);
 
           if (comment.Entry.parentHash != window.location.search.substring(1)) {
+            //append the comment to its parent
             document.querySelector("#"+"mediaBody_"+comment.Entry.parentHash).append(mediaDiv);
           }
           else {
@@ -46,8 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
           var info = document.createElement("h5");
           info.className = "mt-0";
 
-            //username
-            const username = "XY ";
+          //username
+          request("getUsernameByAppAgentHash", comment.Entry.authorAppAgentHash, function (result) {
+            const username = result + " ";
             info.innerHTML += username;
 
             // make the text small
@@ -62,39 +64,51 @@ document.addEventListener("DOMContentLoaded", function () {
             smallText.append(upvoteCounter);
 
             //comment age
-            var commentAge = " · 2h"
-            smallText.innerHTML += commentAge
+            var currentTime = new Date();
+            var timestamp = Date.parse(comment.Entry.timestamp);
+            var timedif = (currentTime - timestamp)
+            var commentAge = Math.round(timedif/60000)
 
-          mediaBody.append(info)
+            if (commentAge<=60){
+              smallText.innerHTML += " · " + commentAge.toString() + " min ago"
+            }
 
-          // add content
-          mediaBody.append(comment.Entry.body);
+            if(commentAge>60){
+              commentAge = Math.round(commentAge/60)
+              smallText.innerHTML += " · "+commentAge.toString() + " h ago"
+            }
 
-          /* reply and vote buttons */
-          // div container
-          actionRow = document.createElement("div");
-          mediaBody.append(actionRow);
+            if(commentAge>1440){
+              commentAge = Math.round(commentAge/1440)
+              smallText.innerHTML += " · "+ commentAge.toString() + " days ago"
+            }
 
-          // comment link/ button
-          commentLink = document.createElement("a");
-          commentLink.dataset.Hash = comment.Hash;
-          // TODO: instead of onclick add a EventListener for the button
-          commentLink.onclick = passData;
-          commentLink.innerHTML = "Reply";
-          actionRow.append(commentLink);
+            //append the info div
+            mediaBody.append(info)
 
-          //upvote Button
-          var upvoteButton = document.createElement("button");
-          upvoteButton.type = "button";
-          upvoteButton.className = "btn btn-default"
-          upvoteButton.setAttribute('aria-label', 'Left Align')
+            // add content
+            mediaBody.append(comment.Entry.body);
 
-          var upvoteSpan = document.createElement("span");
-          upvoteSpan.className = "glyphicon glyphicon-chevron-up"
-          upvoteButton.setAttribute('aria-hidden', 'true');
+            /* reply and vote buttons */
+            // div container
+            actionRow = document.createElement("div");
+            mediaBody.append(actionRow);
 
-          upvoteButton.append(upvoteSpan);
-          actionRow.append(upvoteButton);
+            // comment link/ button
+            commentLink = document.createElement("a");
+            commentLink.dataset.Hash = comment.Hash;
+            // TODO: instead of onclick add a EventListener for the button
+            commentLink.onclick = passData;
+            commentLink.innerHTML = "Reply  ";
+            actionRow.append(commentLink);
+
+            //upvote Button
+            var upvoteButton = document.createElement("i");
+            upvoteButton.classList.add("fas", "fa-arrow-circle-up")
+            upvoteButton.dataset.postHash = comment.Hash;
+            upvoteButton.onclick = upvote;
+            actionRow.append(upvoteButton);
+          })
         })
       }
     })
