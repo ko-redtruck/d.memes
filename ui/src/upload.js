@@ -4,7 +4,7 @@ canvas.id = "cc";
 var ctx = canvas.getContext("2d");
 var img_w;
 var img_h;
-var standard_img_w = 700;
+var standard_img_w = 1100;
 var HERMITE = new Hermite_class();
 
 
