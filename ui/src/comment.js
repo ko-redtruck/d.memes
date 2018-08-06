@@ -12,8 +12,8 @@
 // upload string to the DHT
 function createComment(comment) {
   request("createComment", comment, function(hash) {
-    //document.querySelector("#lasthash").innerHTML = hash;
     // callback function
+    location.reload();
   })
 }
 

@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {document.querySelector
 // upload string to the DHT
 function createPost(post) {
   request("createPost", post, function(hash) {
-    //document.querySelector("#lasthash").innerHTML = hash;
     // callback function
+    $("#uploadSuccessfulModal").modal();
   })
 }
 
